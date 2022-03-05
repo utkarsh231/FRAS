@@ -75,6 +75,7 @@ def teacher_login(request):
             return redirect("/")
         #user is logged in
         # now take the user to teachers page.
+        messages.success(request, ('logged'))
         return redirect("teacher")
 
 def create_session(request):    
@@ -144,6 +145,9 @@ def student_login(request):
     #if user exists, then login the user and open the join_session with user details
     if user:
         auth.login(request,user)
+        messages.success(request, ('logged'))
+    else:
+        messages.success(request, ('invalid'))
     #redirect the user to join_session page
     return redirect("student")
 
@@ -232,6 +236,17 @@ def export_users_csv(request,id):
 
 def join_session(request,id):
     if request.user.is_authenticated:
+        #check if user has already given the attendence or not
+        #find if there is any data in Attendence table, where 
+        #student_id = request.user.id and session_id = id
+        atd = Attendance.objects.filter(student_id=Students.objects.get(userid=request.user.id).id,session_id=id)
+        if len(atd)==1:
+            #message user that they have already given its attendance.
+            messages.success(request, ('Given'))
+            return redirect("student")
+
+
+
         #check if user is actually a student of this session or not.
         #if yes, then direct user to cam page, else send a message in the student page.
         

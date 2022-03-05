@@ -145,7 +145,7 @@
     <script type="text/javascript">
       $(function () {
       $( document ).ready(function() {
-        $("#lblText").html('Session created successfully!');
+        $("#lblText").html('<b>Session created successfully!</b>');
         $('#godo').fadeIn('slow').delay(1000).fadeOut('slow');
     });
   });
@@ -154,7 +154,7 @@
     <script type="text/javascript">
       $(function () {
       $( document ).ready(function() {
-        $("#lblText").html('Session updated successfully!');
+        $("#lblText").html('<b>Session updated successfully!</b>');
         $('#godo').fadeIn('slow').delay(1000).fadeOut('slow');
     });
   });
@@ -163,16 +163,16 @@
     <script type="text/javascript">
       $(function () {
       $( document ).ready(function() {
-        $("#lblText").html('Session deleted successfully!');
+        $("#lblText").html('<b>Session deleted successfully!</b>');
         $('#godo').fadeIn('slow').delay(1000).fadeOut('slow');
     });
   });
     </script>
-    {% else %}
+    {% elif message.message == 'logged' %}
     <script type="text/javascript">
       $(function () {
       $( document ).ready(function() {
-        $("#lblText").html('Record destferjf successfully!');
+        $("#lblText").html('<b>Log In Successful<b>');
         $('#godo').fadeIn('slow').delay(1000).fadeOut('slow');
     });
   });

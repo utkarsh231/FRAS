@@ -123,34 +123,34 @@
       $(function () {
       $( document ).ready(function() {
         $("#lblText").html('<b>You are not a member of this session.</b>');
-        $('#godo').fadeIn('slow').delay(3000).fadeOut('slow');
+        $('#godo').fadeIn('slow').delay(2000).fadeOut('slow');
     });
   });
     </script>
-    {% elif message.message == 'updated' %}
+    {% elif message.message == 'Given' %}
     <script type="text/javascript">
       $(function () {
       $( document ).ready(function() {
-        $("#lblText").html('Session updated successfully!');
-        $('#godo').fadeIn('slow').delay(1000).fadeOut('slow');
+        $("#lblText").html('<b>Attendance already taken<b>');
+        $('#godo').fadeIn('slow').delay(2000).fadeOut('slow');
     });
   });
-    </sc>
-    {% elif message.message == 'deleted' %}
+    </script>
+    {% elif message.message == 'logged' %}
     <script type="text/javascript">
       $(function () {
       $( document ).ready(function() {
-        $("#lblText").html('Session deleted successfully!');
+        $("#lblText").html('<b>Log In Successful<b>');
         $('#godo').fadeIn('slow').delay(1000).fadeOut('slow');
     });
   });
     </script>
-    {% else %}
+    {% elif message.message == 'invalid' %}
     <script type="text/javascript">
       $(function () {
       $( document ).ready(function() {
-        $("#lblText").html('Record destferjf successfully!');
-        $('#godo').fadeIn('slow').delay(1000).fadeOut('slow');
+        $("#lblText").html('<b>Invalid username or Password !</b>');
+        $('#godo').fadeIn('slow').delay(2000).fadeOut('slow');
     });
   });
     </script>
