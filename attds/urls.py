@@ -16,4 +16,8 @@ urlpatterns = [
     path('delete/<int:id>/',views.delete,name='delete'),
     path('update/<int:id>/',views.update,name='update'),
     path(r'^export/csv/$/<int:id>/', views.export_users_csv, name='export_users_csv'),
+
+    path('admin',views.admin,name='admin'),
+    path('train',views.train,name='train'),
+    
 ]

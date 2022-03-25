@@ -1,9 +1,9 @@
 import cv2
 import face_recognition
 
-imgElon = face_recognition.load_image_file('s/Elon Musk.jpg')
+imgElon = face_recognition.load_image_file(r'C:\Users\DCQUASTER JACK\projects\fras\FaceRecognitionProject\ImageBasic\Elon Musk.jpg')
 imgElon = cv2.cvtColor(imgElon, cv2.COLOR_BGR2RGB)
-imgTest = face_recognition.load_image_file('ImageBasic/Biill Gates.jpg')
+imgTest = face_recognition.load_image_file(r'C:\Users\DCQUASTER JACK\projects\fras\FaceRecognitionProject\ImageBasic\Biill Gates.jpg')
 imgTest = cv2.cvtColor(imgTest, cv2.COLOR_BGR2RGB)
 
 faceLoc = face_recognition.face_locations(imgElon)[0]
