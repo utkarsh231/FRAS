@@ -24,8 +24,15 @@
         <![endif]-->
         
         <div class="d-grid">
-        <a href="{% url 'train' %}"  class="btn bg-primary mt-5 ms-5 me-5 btn-block text-light">Train</a>
-            
+        <a href="{% url 'train' %}"  class="btn bg-primary mt-5 ms-5 me-5 btn-block text-light">Train Model</a>
+        <a href="{% url 'run' %}"  class="btn bg-info mt-5 ms-5 me-5 btn-block text-light">Run Model</a>
+        
+        {% for message in messages %}
+        <div class="alert alert-success alert-dismissible mt-3 ms-5 me-5">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>Success!</strong> The training of the model is completed.
+          </div>
+        {% endfor %}    
     </div>
         <script src="" async defer>
         </script>

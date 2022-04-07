@@ -4,6 +4,7 @@ from django.conf.urls.static import static
 
 from . import views
 
+#m=views.Mark()
 urlpatterns = [
     path('',views.home,name='home'),
     path('teacher_login',views.teacher_login,name="teacher_login"),
@@ -17,7 +18,10 @@ urlpatterns = [
     path('update/<int:id>/',views.update,name='update'),
     path(r'^export/csv/$/<int:id>/', views.export_users_csv, name='export_users_csv'),
 
-    path('admin',views.admin,name='admin'),
+    path('admins',views.admins,name='admins'),
     path('train',views.train,name='train'),
-    
+    path('run',views.mark_your_attendance,name='run'),
+    path('facecam_feed',views.facecam_feed,name='facecam_feed'),
+    path('student_register',views.student_register,name='student_register'),
+    path('stdnt',views.stdnt,name='stdnt'),
 ]

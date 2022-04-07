@@ -1,5 +1,6 @@
 
 import http
+import threading
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
@@ -33,6 +34,9 @@ from face_recognition.face_recognition_cli import image_files_in_folder
 import pickle
 import cv2
 import dlib
+from django.views.decorators import gzip
+from django.http.response import StreamingHttpResponse
+#from recognition.camera import FaceDetect
 
 #model libraries
 
@@ -413,8 +417,8 @@ def vizualize_Data(embedded, targets,):
 	plt.savefig('./recognition/static/recognition/img/training_visualisation.png')
 	plt.close()
 '''
-
-def mark_your_attendance():
+#class Mark:
+def mark_your_attendance(request):
     detector=dlib.get_frontal_face_detector()
     predictor = dlib.shape_predictor(r'C:\Users\DCQUASTER JACK\projects\fras\attds\Face_Recognition_Data\shape_predictor_68_face_landmarks.dat')
     #Add path to the shape predictor ######CHANGE TO RELATIVE PATH LATER
@@ -435,9 +439,11 @@ def mark_your_attendance():
         count[encoder.inverse_transform([i])[0]] = 0
         present[encoder.inverse_transform([i])[0]] = False
     vs = VideoStream(src=0).start()
+    #fps=FPS().start()
     sampleNum = 0
     while(True):	
         frame = vs.read()
+        #if frame:
         frame = imutils.resize(frame ,width = 800)
         gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = detector(gray_frame,0)
@@ -467,29 +473,32 @@ def mark_your_attendance():
                 person_name="unknown"
                 cv2.putText(frame, str(person_name), (x+6,y+h-6), cv2.FONT_HERSHEY_SIMPLEX,0.5,(0,255,0),1)
 
-			#cv2.putText()
-			# Before continuing to the next loop, I want to give it a little pause
-			# waitKey of 100 millisecond
-			#cv2.waitKey(50)
+            #cv2.putText()
+            # Before continuing to the next loop, I want to give it a little pause
+            # waitKey of 100 millisecond
+            #cv2.waitKey(50)
 
-		#Showing the image in another window
-		#Creates a window with window name "Face" and with the image img
+        #Showing the image in another window
+        #Creates a window with window name "Face" and with the image img
         cv2.imshow("Mark Attendance - In - Press q to exit",frame)
-		#Before closing it we need to give a wait command, otherwise the open cv wont work
-		# @params with the millisecond of delay 1
-		#cv2.waitKey(1)
-		#To get out of the loop
+        #Before closing it we need to give a wait command, otherwise the open cv wont work
+        # @params with the millisecond of delay 1
+        #cv2.waitKey(1)
+        #To get out of the loop
         key=cv2.waitKey(50) & 0xFF
         if(key==ord("q")):
             break
-	
-	#Stoping the videostream
+        #if frame:
+        #    fps.update()
+        #    ret,jpeg=cv2.imencode('.jpeg',frame)
+        #    yield jpeg.tobytes()
+    #Stoping the videostream
     vs.stop()
 
-	# destroying all the windows
+    # destroying all the windows
     cv2.destroyAllWindows()
     #update_attendance_in_db_in(present)
-    return redirect('home')
+    return frame
 
 
 '''
@@ -575,23 +584,16 @@ def mark_your_attendance_out(request):
 def train(request):
 	#if request.user.username!='admin':
 	#	return redirect('not-authorised')
-
+    
 	training_dir=r'C:\Users\DCQUASTER JACK\projects\fras\attds\Face_Recognition_Data\Training_Dataset'
-	count=0
-	for person_name in os.listdir(training_dir):
-		curr_directory=os.path.join(training_dir,person_name)
-		if not os.path.isdir(curr_directory):
-			continue
-		for imagefile in image_files_in_folder(curr_directory):
-			count+=1
 
 	X=[]
 	y=[]
 	i=0
 
-	for person_name in os.listdir(training_dir):
-		print(str(person_name))
-		curr_directory=os.path.join(training_dir,person_name)
+	for person_name_i in os.listdir(training_dir):
+		print(str(person_name_i))
+		curr_directory=os.path.join(training_dir,person_name_i)
 		if not os.path.isdir(curr_directory):
 			continue
 		for imagefile in image_files_in_folder(curr_directory):
@@ -599,7 +601,7 @@ def train(request):
 			image=cv2.imread(imagefile)
 			try:
 				X.append((face_recognition.face_encodings(image)[0]).tolist())		
-				y.append(person_name)
+				y.append(person_name_i)
 				i+=1
 			except:
 				print("removed")
@@ -611,10 +613,10 @@ def train(request):
 	y=encoder.transform(y)
 	X1=np.array(X)
 	print("shape: "+ str(X1.shape))
-	np.save(r'face_recognition_data/classes.npy', encoder.classes_)
+	np.save(r'C:\Users\DCQUASTER JACK\projects\fras\attds\Face_Recognition_Data\classes.npy', encoder.classes_)
 	svc = SVC(kernel='linear',probability=True)
 	svc.fit(X1,y)
-	svc_save_path="face_recognition_data/svc.sav"
+	svc_save_path=r"C:\Users\DCQUASTER JACK\projects\fras\attds\Face_Recognition_Data\svc.sav"
 	with open(svc_save_path, 'wb') as f:
 		pickle.dump(svc,f)
 	
@@ -623,13 +625,88 @@ def train(request):
 	messages.success(request, ('Training Complete'))
     #return redirect("student")
     #messages.success(request, f'Training Complete.')
-
-	return redirect("admin")
+   
+	return redirect("admins")
 
 #train()
 #mark_your_attendance()
 #visualize()
 
 #for admin page.
-def admin(request):
+def admins(request):
     return render(request,'admin.html')
+
+def gen(camera):
+    while True:
+        frame = camera.mark_your_attendance(2)
+        yield (b'--frame\r\n'
+                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+
+def facecam_feed(request):
+    return StreamingHttpResponse(gen(Mark()),content_type='multipart/x-mixed-replace; boundary=frame')
+
+
+
+
+
+
+
+
+
+
+
+def stdnt(request):
+    return render(request,'student_register.html')
+
+@gzip.gzip_page
+def student_register(request):
+    try:
+        cam = VideoCamera()
+        k =StreamingHttpResponse(gen(cam),content_type = "multipart/x-mixed-replace;boundary=frame")
+        if k!="Done":
+            print("h")
+            return k
+        else:
+            print("Hello")
+            cam.release()
+            return render(request,'student.html') 
+    except:
+        pass
+    return render(request,'student.html')
+
+class VideoCamera(object):
+    def __init__(self):
+        self.video = cv2.VideoCapture(0)
+        (self.grabbed,self.frame)=self.video.read()
+        threading.Thread(target=self.update,args=()).start()
+
+    def __del__(self):
+        cv2.destroyAllWindows()
+        self.video.release()
+        self.video.stop()
+        #self.video.release()
+
+    def get_frame(self):
+        image=self.frame
+        #cv2.imwrite("demo%d.jpg" % count, image)
+        _,jpeg = cv2.imencode('.jpg',image)
+        return jpeg.tobytes()
+
+    def update(self):
+        while True:
+            (self.grabbed,self.frame)= self.video.read()
+
+def gen(camera):
+    count=0
+    while True:
+        frame = camera.get_frame()
+        yield (b'--frame\r\n'
+               b'Content-Type:image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+        count+=1
+        if count>200:
+            del camera
+            cv2.destroyAllWindows()
+            return redirect("/")
+            
+    #del camera
+    #cv2.destroyAllWindows()

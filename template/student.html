@@ -221,8 +221,31 @@
       <!-- Modal footer -->
       <div class="modal-footer">
         <button type="submit" class="btn btn-success">Login</button>
+        <!--<a class="text-primary" href="#" data-bs-toggle="modal" data-bs-target="#myModal2">Register?</a>-->
+        <a href="{%url 'stdnt'%}">Register?</a>
       </div>
     </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="myModal2">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title text-dark">Register</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <form action="student_register">
+        <div class="mb-3 mt-3 ms-5 me-5">
+          <label for="email" class="form-label"><b>Reg.no:</b></label>
+          <input type="text" class="form-control" id="email" placeholder="Enter registration number" name="reg">
+        </div>
+
+        <button type="submit" class="btn btn-primary ms-5">Submit</button>
+      </form>
     </div>
   </div>
 </div>
