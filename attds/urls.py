@@ -17,6 +17,8 @@ urlpatterns = [
     path('delete/<int:id>/',views.delete,name='delete'),
     path('update/<int:id>/',views.update,name='update'),
     path(r'^export/csv/$/<int:id>/', views.export_users_csv, name='export_users_csv'),
+    
+
 
     path('admins',views.admins,name='admins'),
     path('train',views.train,name='train'),
@@ -24,4 +26,6 @@ urlpatterns = [
     path('facecam_feed',views.facecam_feed,name='facecam_feed'),
     path('student_register',views.student_register,name='student_register'),
     path('stdnt',views.stdnt,name='stdnt'),
+    path('create_dataset',views.create_dataset,name='create_dataset'),
+
 ]

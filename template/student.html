@@ -222,9 +222,18 @@
       <div class="modal-footer">
         <button type="submit" class="btn btn-success">Login</button>
         <!--<a class="text-primary" href="#" data-bs-toggle="modal" data-bs-target="#myModal2">Register?</a>-->
-        <a href="{%url 'stdnt'%}">Register?</a>
+        
+        <br>
+        <span class="input-group-text">Reg.no: </span>
+
       </div>
     </form>
+
+    <form action="create_dataset" method="get">
+      <input name="regno" type="number" class="form-control">
+      <button type="submit" class="btn btn-success">Register?</button>
+      </form>
+
     </div>
   </div>
 </div>
