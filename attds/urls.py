@@ -28,4 +28,7 @@ urlpatterns = [
     path('stdnt',views.stdnt,name='stdnt'),
     path('create_dataset',views.create_dataset,name='create_dataset'),
 
+
+    path('cam',views.cam,name='cam'),
+
 ]

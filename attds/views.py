@@ -24,6 +24,7 @@ import csv
 from datetime import datetime
 import numpy as np
 import face_recognition
+import threading
 
 import imutils
 from imutils.video import VideoStream
@@ -262,6 +263,14 @@ def export_users_csv(request,id):
     return response
 
 
+
+def open_camera(request):
+    print("opening")
+    #return render(request,'index.html')
+    return HttpResponse("<h1>Hello</h1>")
+   
+
+
 def join_session(request,id):
     if request.user.is_authenticated:
         #check if user has already given the attendence or not
@@ -270,6 +279,7 @@ def join_session(request,id):
         d = Students.objects.get(userid=request.user.id)
         s = Sessions.objects.get(pk=id)
         atd = Attendance.objects.filter(student_id=d,session_id=s)
+
         if len(atd)==1:
             #message user that they have already given its attendance.
             messages.success(request, ('Given'))
@@ -290,6 +300,9 @@ def join_session(request,id):
         s_sem=s.subject_code.sem
         s_sec=s.section
         if d_dept==s_dept and d_sem==s_sem and d_sec==s_sec:
+            #print('abc')
+            #out=open_camera(request)
+            #print('zyz')
             out=mark_your_attendance(request)
             if str(d.reg_num)==out:
                 d=Attendance(attd_id=1234,student_id=d,session_id=s)
@@ -389,7 +402,7 @@ def create_dataset(request):
 
 
 
-
+'''
 def visualize(username="Elon Musk"):
     id=username
     if os.path.exists('attds/Face_Recognition_Data/Training_Dataset/{}/'.format(id)==False):
@@ -475,7 +488,7 @@ def visualize(username="Elon Musk"):
         vs.stop()
         # destroying all the windows
         cv2.destroyAllWindows()
-            
+        ''' 
 
  
 def predict(face_aligned,svc,threshold=0.2):
@@ -813,6 +826,10 @@ def gen(camera):
             
     #del camera
     #cv2.destroyAllWindows()
+
+
+def cam(request):
+    return render(request,'cam.html')
 
 
 
