@@ -41,7 +41,7 @@ from django.http.response import StreamingHttpResponse
 #from recognition.camera import FaceDetect
 from collections import Counter
 #model libraries
-
+#dlib @ file:///C:/Users/DCQUASTER%20JACK/Downloads/Install-dlib-main/Install-dlib-main/dlib-19.19.0-cp38-cp38-win_amd64.whl
 # Create your views here.
 
 def home(request):
