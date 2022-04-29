@@ -28,7 +28,6 @@ proglog==0.1.9
 psycopg2==2.9.3
 psycopg2-binary==2.9.3
 pyparsing==3.0.7
-python==3.8.9
 python-dateutil==2.8.2
 requests==2.24.0
 scikit-learn==1.0.2
