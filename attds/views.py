@@ -273,6 +273,8 @@ def open_camera(request):
     #return render(request,'index.html')
     return HttpResponse("<h1>Hello</h1>")
    
+def mark_your_attendance(request):
+    return 201900185
 
 
 def join_session(request,id):
@@ -322,7 +324,7 @@ def join_session(request,id):
 
         #return HttpResponse("<h1>Hello</h1>")
 
-'''
+"""
 def create_dataset(request):
     id=request.GET['regno']
     Dataset = 'C:/Users/DCQUASTER JACK/projects/fras/attds/Face_Recognition_Data/Dataset/'
@@ -839,4 +841,4 @@ def cam(request):
 
 
 
-'''
+"""
