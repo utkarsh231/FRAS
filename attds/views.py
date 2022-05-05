@@ -324,7 +324,7 @@ def join_session(request,id):
 
         #return HttpResponse("<h1>Hello</h1>")
 
-"""
+r'''
 def create_dataset(request):
     id=request.GET['regno']
     Dataset = 'C:/Users/DCQUASTER JACK/projects/fras/attds/Face_Recognition_Data/Dataset/'
@@ -841,4 +841,4 @@ def cam(request):
 
 
 
-"""
+'''
