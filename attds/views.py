@@ -26,7 +26,7 @@ import numpy as np
 import face_recognition
 import threading
 
-import imutils
+#import imutils
 from imutils.video import VideoStream
 from imutils.face_utils import rect_to_bb
 from imutils.face_utils import FaceAligner
