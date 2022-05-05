@@ -21,14 +21,14 @@ urlpatterns = [
 
 
     path('admins',views.admins,name='admins'),
-    path('train',views.train,name='train'),
-    path('run',views.mark_your_attendance,name='run'),
-    path('facecam_feed',views.facecam_feed,name='facecam_feed'),
-    path('student_register',views.student_register,name='student_register'),
-    path('stdnt',views.stdnt,name='stdnt'),
-    path('create_dataset',views.create_dataset,name='create_dataset'),
+    #path('train',views.train,name='train'),
+    #path('run',views.mark_your_attendance,name='run'),
+    #path('facecam_feed',views.facecam_feed,name='facecam_feed'),
+    #path('student_register',views.student_register,name='student_register'),
+    #path('stdnt',views.stdnt,name='stdnt'),
+    #path('create_dataset',views.create_dataset,name='create_dataset'),
 
 
-    path('cam',views.cam,name='cam'),
+    #path('cam',views.cam,name='cam'),
 
 ]
