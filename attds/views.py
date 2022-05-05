@@ -323,7 +323,9 @@ def join_session(request,id):
             return redirect("student")
 
         #return HttpResponse("<h1>Hello</h1>")
-
+def admins(request):
+    return render(request,'admin.html')
+    
 r'''
 def create_dataset(request):
     id=request.GET['regno']
