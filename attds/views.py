@@ -20,13 +20,15 @@ from sklearn.svm import SVC
 #from django.contrib.auth.models import User
 from datetime import date
 import time
-import csv
 from datetime import datetime
 import numpy as np
+
+'''
 import face_recognition
 import threading
 
-#import imutils
+import csv
+import imutils
 from imutils.video import VideoStream
 from imutils.face_utils import rect_to_bb
 from imutils.face_utils import FaceAligner
@@ -43,6 +45,8 @@ from collections import Counter
 #model libraries
 #dlib @ file:///C:/Users/DCQUASTER%20JACK/Downloads/Install-dlib-main/Install-dlib-main/dlib-19.19.0-cp38-cp38-win_amd64.whl
 # Create your views here.
+
+'''
 
 def home(request):
     return render(request,'index.html')
@@ -318,6 +322,7 @@ def join_session(request,id):
 
         #return HttpResponse("<h1>Hello</h1>")
 
+'''
 def create_dataset(request):
     id=request.GET['regno']
     Dataset = 'C:/Users/DCQUASTER JACK/projects/fras/attds/Face_Recognition_Data/Dataset/'
@@ -833,3 +838,4 @@ def cam(request):
 
 
 
+'''
