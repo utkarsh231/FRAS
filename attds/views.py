@@ -527,8 +527,8 @@ def vizualize_Data(embedded, targets,):
 	plt.tight_layout()	
 	plt.savefig('./recognition/static/recognition/img/training_visualisation.png')
 	plt.close()
-'''
-'''
+
+
 #class Mark:
 def mark_your_attendance(request):
     op=[]
