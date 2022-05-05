@@ -407,7 +407,7 @@ def create_dataset(request):
 
 
 
-'''
+
 def visualize(username="Elon Musk"):
     id=username
     if os.path.exists('attds/Face_Recognition_Data/Training_Dataset/{}/'.format(id)==False):
@@ -493,9 +493,9 @@ def visualize(username="Elon Musk"):
         vs.stop()
         # destroying all the windows
         cv2.destroyAllWindows()
-        ''' 
+         
 
- 
+
 def predict(face_aligned,svc,threshold=0.2):
     face_encodings=np.zeros((1,128))
     try:
@@ -513,7 +513,7 @@ def predict(face_aligned,svc,threshold=0.2):
     #print(result[0],prob[0][result[0]])
     return (result[0],prob[0][result[0]])
 
-'''
+
 def vizualize_Data(embedded, targets,):
 	
 	X_embedded = TSNE(n_components=2).fit_transform(embedded)
@@ -527,6 +527,7 @@ def vizualize_Data(embedded, targets,):
 	plt.tight_layout()	
 	plt.savefig('./recognition/static/recognition/img/training_visualisation.png')
 	plt.close()
+'''
 '''
 #class Mark:
 def mark_your_attendance(request):
@@ -623,7 +624,7 @@ def mark_your_attendance(request):
     return rt
 
 
-'''
+
 def mark_your_attendance_out(request):
     detector = dlib.get_frontal_face_detector()
     predictor = dlib.shape_predictor('face_recognition_data/shape_predictor_68_face_landmarks.dat')   #Add path to the shape predictor ######CHANGE TO RELATIVE PATH LATER
@@ -700,7 +701,7 @@ def mark_your_attendance_out(request):
     cv2.destroyAllWindows()
     return redirect('home')
 
-'''
+
 
 #@login_required
 def train(request):
