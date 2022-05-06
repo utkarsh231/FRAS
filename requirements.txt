@@ -24,7 +24,7 @@ kiwisolver==1.4.0
 matplotlib==3.5.1
 moviepy==1.0.3
 numpy==1.22.3
-opencv-python==4.5.5.64
+opencv-python-headless==4.5.5.64
 packaging==21.3
 Pillow==9.0.1
 proglog==0.1.9
