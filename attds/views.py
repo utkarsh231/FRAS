@@ -36,7 +36,8 @@ import csv
 import os
 from face_recognition.face_recognition_cli import image_files_in_folder
 import pickle
-import cv2
+#import cv2
+from cv2 import *
 import dlib
 from django.views.decorators import gzip
 from django.http.response import StreamingHttpResponse
