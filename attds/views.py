@@ -28,11 +28,12 @@ import face_recognition
 import threading
 
 import csv
-#import imutils
-#from imutils.video import VideoStream
-#from imutils.face_utils import rect_to_bb
-#from imutils.face_utils import FaceAligner
-#from imutils import face_utils
+import imutils
+from imutils.video import VideoStream
+from imutils.face_utils import rect_to_bb
+from imutils.face_utils import FaceAligner
+
+from imutils import face_utils
 import os
 from face_recognition.face_recognition_cli import image_files_in_folder
 import pickle
