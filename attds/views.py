@@ -28,11 +28,11 @@ import face_recognition
 import threading
 
 import csv
-#import imutils
-#from imutils.video import VideoStream
-#from imutils.face_utils import rect_to_bb
-#from imutils.face_utils import FaceAligner
-#from imutils import face_utils
+import imutils
+from imutils.video import VideoStream
+from imutils.face_utils import rect_to_bb
+from imutils.face_utils import FaceAligner
+from imutils import face_utils
 import os
 from face_recognition.face_recognition_cli import image_files_in_folder
 import pickle
@@ -537,6 +537,7 @@ def vizualize_Data(embedded, targets,):
 #class Mark:
 def mark_your_attendance(request):
     op=[]
+    print("abc")
     detector=dlib.get_frontal_face_detector()
     predictor = dlib.shape_predictor(r'C:\Users\DCQUASTER JACK\projects\fras\attds\Face_Recognition_Data\shape_predictor_68_face_landmarks.dat')
     #Add path to the shape predictor ######CHANGE TO RELATIVE PATH LATER
