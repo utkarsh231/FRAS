@@ -23,7 +23,7 @@ import time
 from datetime import datetime
 import numpy as np
 
-'''
+
 import face_recognition
 import threading
 
@@ -46,7 +46,7 @@ from collections import Counter
 #dlib @ file:///C:/Users/DCQUASTER%20JACK/Downloads/Install-dlib-main/Install-dlib-main/dlib-19.19.0-cp38-cp38-win_amd64.whl
 # Create your views here.
 
-'''
+
 
 def home(request):
     return render(request,'index.html')
@@ -326,7 +326,7 @@ def join_session(request,id):
 def admins(request):
     return render(request,'admin.html')
     
-r'''
+
 def create_dataset(request):
     id=request.GET['regno']
     Dataset = 'C:/Users/DCQUASTER JACK/projects/fras/attds/Face_Recognition_Data/Dataset/'
@@ -843,4 +843,3 @@ def cam(request):
 
 
 
-'''
