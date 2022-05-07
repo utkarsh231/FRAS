@@ -42,6 +42,15 @@ import cv2
 import dlib
 from django.views.decorators import gzip
 from django.http.response import StreamingHttpResponse
+
+
+
+from django.views.decorators import gzip
+from django.http import StreamingHttpResponse
+import cv2
+import threading
+
+
 #from recognition.camera import FaceDetect
 from collections import Counter
 #model libraries
@@ -270,10 +279,10 @@ def export_users_csv(request,id):
 
 
 
-def open_camera(request):
+def open_cam(request):
     print("opening")
     #return render(request,'index.html')
-    return HttpResponse("<h1>Hello</h1>")
+    return HttpResponse("<h1>World</h1>")
    
 def mark_your_attendance(request):
     return 201900185
@@ -311,6 +320,7 @@ def join_session(request,id):
             #print('abc')
             #out=open_camera(request)
             #print('zyz')
+            return render(request,'demo.html')
             out=mark_your_attendance(request)
             if str(d.reg_num)==out:
                 d=Attendance(attd_id=1234,student_id=d,session_id=s)
@@ -787,58 +797,42 @@ def facecam_feed(request):
 def stdnt(request):
     return render(request,'student_register.html')
 
-@gzip.gzip_page
-def student_register(request):
-    try:
-        cam = VideoCamera()
-        k =StreamingHttpResponse(gen(cam),content_type = "multipart/x-mixed-replace;boundary=frame")
-        if k!="Done":
-            print("h")
-            return k
-        else:
-            print("Hello")
-            cam.release()
-            return render(request,'student.html') 
-    except:
-        pass
-    return render(request,'student.html')
 
 class VideoCamera(object):
     def __init__(self):
         self.video = cv2.VideoCapture(0)
-        (self.grabbed,self.frame)=self.video.read()
-        threading.Thread(target=self.update,args=()).start()
+        (self.grabbed, self.frame) = self.video.read()
+        threading.Thread(target=self.update, args=()).start()
 
     def __del__(self):
-        cv2.destroyAllWindows()
         self.video.release()
-        self.video.stop()
-        #self.video.release()
 
     def get_frame(self):
-        image=self.frame
-        #cv2.imwrite("demo%d.jpg" % count, image)
-        _,jpeg = cv2.imencode('.jpg',image)
+        image = self.frame
+        _, jpeg = cv2.imencode('.jpg', image)
         return jpeg.tobytes()
 
     def update(self):
         while True:
-            (self.grabbed,self.frame)= self.video.read()
+            (self.grabbed, self.frame) = self.video.read()
+
 
 def gen(camera):
-    count=0
     while True:
         frame = camera.get_frame()
-        yield (b'--frame\r\n'
-               b'Content-Type:image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
-        count+=1
-        if count>200:
-            del camera
-            cv2.destroyAllWindows()
-            return redirect("/")
-            
-    #del camera
-    #cv2.destroyAllWindows()
+        yield(b'--frame\r\n'
+              b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+
+
+@gzip.gzip_page
+def livefe(request):
+    try:
+        cam = VideoCamera()
+        return StreamingHttpResponse(gen(cam), content_type="multipart/x-mixed-replace;boundary=frame")
+    except:  # This is bad! replace it with proper handling
+        pass
+
+
 
 
 def cam(request):
