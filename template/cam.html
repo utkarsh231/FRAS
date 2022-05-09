@@ -138,12 +138,17 @@ button {
     </style>
   </head>
   <body>
+    <form id="myForm" action="facecam_feed" method="post">
+    {% csrf_token %}
+    <input type="text" id="id_hidden_image_field" name="imagedata"></input>
+    </form>
+
     <div id="container">
       <div id="monitor">
         <div id="monitorscreen">
           <div class="magic">
             <!--<img style="width:880px;height:auto;" src="https://c.tenor.com/lk5YUP4Co1QAAAAC/static-glitch.gif" alt="">-->
-            <img style="width:880px;height:auto;" src="{%url 'facecam_feed' %}" alt="">
+            
           </div>
 <video  id="video" width="720" height="640" autoplay></video>
         </div>
@@ -192,10 +197,12 @@ button {
     click_button.addEventListener('click', function() {
         canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
        	let image_data_url = canvas.toDataURL('image/jpeg');
+        document.getElementById('id_hidden_image_field').value = image_data_url;
         console.log(image_data_url);
 
         dataurl.value = image_data_url;
         dataurl_container.style.display = 'block';
+        document.getElementById("myForm").submit();
     });
 
     </script>

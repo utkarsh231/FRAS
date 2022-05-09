@@ -57,6 +57,8 @@ from collections import Counter
 #dlib @ file:///C:/Users/DCQUASTER%20JACK/Downloads/Install-dlib-main/Install-dlib-main/dlib-19.19.0-cp38-cp38-win_amd64.whl
 # Create your views here.
 
+import re
+import base64
 
 
 def home(request):
@@ -782,8 +784,23 @@ def gen(camera):
         yield (b'--frame\r\n'
                 b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
+
 def facecam_feed(request):
-    return StreamingHttpResponse(gen(Mark()),content_type='multipart/x-mixed-replace; boundary=frame')
+    if request.method=='POST':    
+        print("keshabh")
+        dataUrlPattern = re.compile('data:image/(png|jpeg);base64,(.*)$')
+        ImageData = request.POST['imagedata']
+        ImageData = dataUrlPattern.match(ImageData).group(2)
+        if ImageData == None or len(ImageData) == 0:
+            print("are bhai error hai")
+            pass
+        ImageData = base64.b64decode(ImageData)
+
+
+        print(ImageData)
+        return HttpResponse("<h1>Hello</h1>")
+    else:
+        return HttpResponse("<h1>World</h1>")
 
 
 
