@@ -10,10 +10,10 @@ from django.contrib.auth.decorators import login_required
 from requests import session
 from .models import *
 
-from matplotlib import pyplot as plt, rcParams
-from sklearn.manifold import TSNE
-from sklearn.preprocessing import LabelEncoder
-from sklearn.svm import SVC
+#from matplotlib import pyplot as plt, rcParams
+#from sklearn.manifold import TSNE
+#from sklearn.preprocessing import LabelEncoder
+#from sklearn.svm import SVC
 #from mysqlx import Session
 #from attds.models import Attendance, Students, Subjects, Teachers, Sessions
 #from django.contrib import messages
@@ -59,14 +59,14 @@ from collections import Counter
 
 import re
 import base64
-import PIL.Image as Image 
-import io
+#import PIL.Image as Image 
+#import io
 
-import Augmentor
+#import Augmentor
 from numpy import asarray
-from PIL import Image
+#from PIL import Image
 
-from .models import Chat
+#from .models import Chat
 
 def home(request):
     return render(request,'index.html')
