@@ -118,7 +118,6 @@ pytz-deprecation-shim==0.1.0.post0
 pyzmq==22.3.0
 requests==2.24.0
 scikit-learn==1.0.2
-scipy==1.8.0
 semver==2.13.0
 Send2Trash==1.8.0
 service-identity==21.1.0
