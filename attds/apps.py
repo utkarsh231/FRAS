@@ -4,3 +4,7 @@ from django.apps import AppConfig
 class AttdsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'attds'
+
+class VideoConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'video'

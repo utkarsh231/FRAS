@@ -39,6 +39,10 @@ class Attendance(models.Model):
     student_id = models.ForeignKey(Students,on_delete=models.CASCADE,default=1)
     session_id = models.ForeignKey(Sessions,on_delete=models.CASCADE,default=1)
 
+class Chat(models.Model):
+    room_name = models.CharField(max_length=255)
+    allowed_users = models.CharField(max_length=255)
+
 
 #Lets make a subject table, that will contain the
 #sub_code, sub_name, dept, sem

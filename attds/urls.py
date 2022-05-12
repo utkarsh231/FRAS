@@ -31,5 +31,7 @@ urlpatterns = [
 
     path('cam',views.cam,name='cam'),
     path('livefe',views.livefe,name='livefe'),
+    path('demo',views.demo,name='demo'),
+    path('video/<str:room>/<str:created>/',views.video,name='video')
 
 ]

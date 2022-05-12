@@ -54,12 +54,19 @@ import threading
 #from recognition.camera import FaceDetect
 from collections import Counter
 #model libraries
-#dlib @ file:///C:/Users/DCQUASTER%20JACK/Downloads/Install-dlib-main/Install-dlib-main/dlib-19.19.0-cp38-cp38-win_amd64.whl
+
 # Create your views here.
 
 import re
 import base64
+import PIL.Image as Image 
+import io
 
+import Augmentor
+from numpy import asarray
+from PIL import Image
+
+from .models import Chat
 
 def home(request):
     return render(request,'index.html')
@@ -322,7 +329,7 @@ def join_session(request,id):
             #print('abc')
             #out=open_camera(request)
             #print('zyz')
-            return render(request,'demo.html')
+            #return render(request,'demo.html')
             out=mark_your_attendance(request)
             if str(d.reg_num)==out:
                 d=Attendance(attd_id=1234,student_id=d,session_id=s)
@@ -514,7 +521,7 @@ def visualize(username="Elon Musk"):
          
 
 
-def predict(face_aligned,svc,threshold=0.2):
+def predict(face_aligned,svc,threshold=0.7):
     face_encodings=np.zeros((1,128))
     try:
         x_face_locations=face_recognition.face_locations(face_aligned)
@@ -575,10 +582,10 @@ def mark_your_attendance(request):
     sampleNum = 0
     while(True):	
         frame = vs.read()
-        #if frame:
         frame = imutils.resize(frame ,width = 800)
         gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = detector(gray_frame,0)
+        print(faces)
         for face in faces:
             print("INFO : inside for loop")
             (x,y,w,h) = face_utils.rect_to_bb(face)
@@ -795,9 +802,149 @@ def facecam_feed(request):
             print("are bhai error hai")
             pass
         ImageData = base64.b64decode(ImageData)
+        #_, jpeg = cv2.imencode('.jpg', ImageData)
+        img=Image.open(io.BytesIO(ImageData))
+        frames=[]
+        for i in range(100):
+            frames.append(img)
+        #img.show()
+        #img=np.array(img)
+
+        #for i in range(100):
+        #    cv2.imwrite(r'C:\Users\DCQUASTER JACK\projects\fras\attds\Face_Recognition_Data\Output\data'+str(i)+'.jpg', img)
+        
+
+        #p = Augmentor.Pipeline(r'C:\Users\DCQUASTER JACK\projects\fras\attds\Face_Recognition_Data\Test')
+        #p.zoom(probability = 0.2, min_factor=0.5, max_factor=1.2)
+        #p.flip_top_bottom(probability = 0.1)
+        #p.random_brightness(probability = 0.7, min_factor=0.7, max_factor=1.2)
+        #p.sample(100)
 
 
-        print(ImageData)
+
+
+        
+
+        op=[]
+        print("abc")
+        detector=dlib.get_frontal_face_detector()
+        predictor = dlib.shape_predictor(r'C:\Users\DCQUASTER JACK\projects\fras\attds\Face_Recognition_Data\shape_predictor_68_face_landmarks.dat')
+        #Add path to the shape predictor ######CHANGE TO RELATIVE PATH LATER
+        svc_save_path=r"C:\Users\DCQUASTER JACK\projects\fras\attds\Face_Recognition_Data\svc.sav"	
+        with open(svc_save_path, 'rb') as f:
+            svc = pickle.load(f)
+            fa = FaceAligner(predictor , desiredFaceWidth = 96)
+            encoder=LabelEncoder()
+            encoder.classes_ = np.load(r'C:\Users\DCQUASTER JACK\projects\fras\attds\Face_Recognition_Data\classes.npy')
+        
+        faces_encodings = np.zeros((1,128))
+        no_of_faces = len(svc.predict_proba(faces_encodings)[0])
+        count = dict()
+        present = dict()
+        log_time = dict()
+        start = dict()
+        for i in range(no_of_faces):
+            count[encoder.inverse_transform([i])[0]] = 0
+            present[encoder.inverse_transform([i])[0]] = False
+        #vs = VideoStream(src=0).start()
+        #fps=FPS().start()
+        sampleNum = 0
+        frames=[]
+        #dire=os.path.join(r'C:\Users\DCQUASTER JACK\projects\fras\attds\Face_Recognition_Data\Output')
+        #for imagefile in image_files_in_folder(dire):
+        #    frames.append(cv2.imread(imagefile))
+            
+        ind=0
+        while(ind<99):	
+            #frame = np.array(frames[ind])
+            frame = img
+            frame = np.array(img)
+            frame = imutils.resize(frame ,width = 800)
+            gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            faces = detector(gray_frame,1)
+            print("face : ", faces)
+            for face in faces:
+                print("INFO : inside for loop")
+                (x,y,w,h) = face_utils.rect_to_bb(face)
+                face_aligned = fa.align(frame,gray_frame,face)
+                cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),1)		
+                (pred,prob)=predict(face_aligned,svc)
+                if(pred!=[-1]):
+                    person_name=encoder.inverse_transform(np.ravel([pred]))[0]
+                    pred=person_name
+                    if count[pred] == 0:
+                        start[pred] = time.time()
+                        count[pred] = count.get(pred,0) + 1
+                    if count[pred] == 4 and (time.time()-start[pred]) > 1.2:
+                        count[pred] = 0 
+                    else:
+                        #if count[pred] == 4 and (time.time()-start) <= 1.5:
+                        present[pred] = True
+                        #log_time[pred] = datetime.datetime.now()
+                        log_time[pred] =2
+                        count[pred] = count.get(pred,0) + 1
+                        print(pred, present[pred], count[pred])
+                        op.append(pred)
+                        cv2.putText(frame, str(person_name)+ str(prob), (x+6,y+h-6), cv2.FONT_HERSHEY_SIMPLEX,0.5,(0,255,0),1)
+                else:
+                    person_name="unknown"
+                    cv2.putText(frame, str(person_name), (x+6,y+h-6), cv2.FONT_HERSHEY_SIMPLEX,0.5,(0,255,0),1)
+            ind+=1
+
+    r"""
+        op=[]
+        print("abc")
+        detector=dlib.get_frontal_face_detector()
+        predictor = dlib.shape_predictor(r'C:\Users\DCQUASTER JACK\projects\fras\attds\Face_Recognition_Data\shape_predictor_68_face_landmarks.dat')
+        #Add path to the shape predictor ######CHANGE TO RELATIVE PATH LATER
+        svc_save_path=r"C:\Users\DCQUASTER JACK\projects\fras\attds\Face_Recognition_Data\svc.sav"	
+        with open(svc_save_path, 'rb') as f:
+            svc = pickle.load(f)
+            fa = FaceAligner(predictor , desiredFaceWidth = 96)
+            encoder=LabelEncoder()
+            encoder.classes_ = np.load(r'C:\Users\DCQUASTER JACK\projects\fras\attds\Face_Recognition_Data\classes.npy')
+        
+        faces_encodings = np.zeros((1,128))
+        no_of_faces = len(svc.predict_proba(faces_encodings)[0])
+        count = dict()
+        present = dict()
+        log_time = dict()
+        start = dict()
+        for i in range(no_of_faces):
+            count[encoder.inverse_transform([i])[0]] = 0
+            present[encoder.inverse_transform([i])[0]] = False
+
+        frame = np.array(img)
+        frame = imutils.resize(frame ,width = 800)
+        gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        faces = detector(gray_frame,0)
+        print(faces)
+        for face in faces:
+            print("INFO : inside for loop")
+            (x,y,w,h) = face_utils.rect_to_bb(face)
+            face_aligned = fa.align(frame,gray_frame,face)
+            cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),1)
+            (pred,prob)=predict(face_aligned,svc)
+            if(pred!=[-1]):
+                person_name=encoder.inverse_transform(np.ravel([pred]))[0]
+                pred=person_name
+                if count[pred] == 0:
+                    start[pred] = time.time()
+                    count[pred] = count.get(pred,0) + 1
+                if count[pred] == 4 and (time.time()-start[pred]) > 1.5:
+                    count[pred] = 0
+                else:
+                    #if count[pred] == 4 and (time.time()-start) <= 1.5:
+                    present[pred] = True
+                    log_time[pred] = datetime.datetime.now()
+                    count[pred] = count.get(pred,0) + 1
+                    print(pred, present[pred], count[pred])
+                cv2.putText(frame, str(person_name)+ str(prob), (x+6,y+h-6), cv2.FONT_HERSHEY_SIMPLEX,0.5,(0,255,0),1)
+            else:
+                person_name="unknown"
+                cv2.putText(frame, str(person_name), (x+6,y+h-6), cv2.FONT_HERSHEY_SIMPLEX,0.5,(0,255,0),1)
+
+            
         return HttpResponse("<h1>Hello</h1>")
     else:
         return HttpResponse("<h1>World</h1>")
@@ -805,7 +952,7 @@ def facecam_feed(request):
 
 
 
-
+    """
 
 
 
@@ -855,5 +1002,25 @@ def livefe(request):
 def cam(request):
     return render(request,'cam.html')
 
+
+
+def video(request,room,created):
+    return render(request,'video.html',{'room':room,'created':created})
+
+def demo(request):
+    if request.method == 'POST':
+        room = request.POST['room']
+        get_room = Chat.objects.filter(room_name=room)
+        if get_room:
+            c = get_room[0]
+            number = c.allowed_users
+            if int(number) < 2:
+                number = 2
+                return redirect(f'/video/{room}/join/')
+        else:
+            create = Chat.objects.create(room_name=room,allowed_users=1)
+            if create:
+                return redirect(f'/video/{room}/created/')
+    return render(request,'demo.html')
 
 
