@@ -10,10 +10,10 @@ from django.contrib.auth.decorators import login_required
 from requests import session
 from .models import *
 
-#from matplotlib import pyplot as plt, rcParams
-#from sklearn.manifold import TSNE
-#from sklearn.preprocessing import LabelEncoder
-#from sklearn.svm import SVC
+from matplotlib import pyplot as plt, rcParams
+from sklearn.manifold import TSNE
+from sklearn.preprocessing import LabelEncoder
+from sklearn.svm import SVC
 #from mysqlx import Session
 #from attds.models import Attendance, Students, Subjects, Teachers, Sessions
 #from django.contrib import messages
@@ -69,6 +69,7 @@ from numpy import asarray
 #from .models import Chat
 
 def home(request):
+    print("sdfeferrf")
     return render(request,'index.html')
 
 def logout(request):
@@ -78,6 +79,11 @@ def logout(request):
 def teacher(request):
     #get user details
     d = Teachers.objects.filter(userid=request.user.id)
+    #if its not the teacher and its the admin, then logout the admin.
+    if not d:
+        auth.logout(request)
+        return render(request,'index.html')
+    
     #get all sessions details created by the user logged in
     s = Sessions.objects.filter(teacher_id=request.user.id)
     mn=[]
@@ -155,6 +161,7 @@ def student(request):
         d = Students.objects.filter(userid=request.user.id)[0]
     except:
         d=[]
+        auth.logout(request)
     #get all sessions 
     s = Sessions.objects.all()
     mn=[]

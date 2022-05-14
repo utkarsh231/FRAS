@@ -1,3 +1,5 @@
+{%load static%}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,7 +29,7 @@
 }
 
 .right {
-  background-image: url("https://cdn.pixabay.com/photo/2020/09/13/20/28/graduate-5569301__480.png");
+  background-image: url("{% static 'right.webp'%}");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -376,7 +378,7 @@ bottom: 100%;
   <div class="left">
 
     <div class="sitename mt-4 ms-5 text-success ">
-      <a href="index.html"><p>Face Recognition Attendance System</p></a>
+      <a href="{%url 'home'%}"><p>Face Recognition Attendance System</p></a>
     </div>
 
     <div class="content container mt-3 p-5 ">
@@ -429,7 +431,7 @@ bottom: 100%;
 
 <div class="mag">
   <div class="gradient-border">
-  <img style="color:black;position:absolute;font-size: 18px;left:0px;top:0px;width:203px;height:203px;border-radius:100%;" src="https://cdn.pixabay.com/photo/2020/05/16/16/43/book-5178205_1280.jpg" alt="">
+  <img style="color:black;position:absolute;font-size: 18px;left:0px;top:0px;width:203px;height:203px;border-radius:100%;" src="{% static 'center.webp' %}" alt="">
   </div>
 </div>
 
