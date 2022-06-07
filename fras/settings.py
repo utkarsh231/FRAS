@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 import django_heroku
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -40,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'attds.apps.AttdsConfig',
-    'channels',
+    'import_export',
 ]
 
 MIDDLEWARE = [
@@ -72,15 +73,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'fras.wsgi.application'
-ASGI_APPLICATION = 'fras.asgi.application'
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
-        },
-    },
-}
 
 # Base url to serve media files  
 MEDIA_URL = '/media/'  

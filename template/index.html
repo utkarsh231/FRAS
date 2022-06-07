@@ -13,7 +13,10 @@
 </script>
 <style>
 
+#center_img{
 
+  color:black;position:absolute;font-size: 18px;left:0px;top:0px;width:203px;height:203px;border-radius:100%;
+}
 
 
 .left {
@@ -155,11 +158,14 @@ svg {
   opacity: 0.9;
 }
 
-.sitename p{ color: 30px;
+.sitename p{ color: 24px;
   color:dodgerblue;
   font-size: 22px;
-  letter-spacing: 2px;
-  text-shadow: 1px 1px 2px black, 0 0 28px lightgreen, 0 0 5px lightgreen;font-weight: bold;font-family: cursive;}
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 2px black, 0 0 28px lightgreen, 0 0 5px lightgreen;font-weight: bold;font-family: cursive;
+
+ }
+
 
 
 
@@ -330,6 +336,108 @@ bottom: 100%;
 }
 }
 
+@media only screen and (max-width: 500px) {
+  .left {
+    position:absolute;
+    bottom:0px;
+    height: 70vh;
+    width:90%;
+    opacity: 0.9;
+    margin-top:3vh;
+  }
+
+  .right {
+    position:absolute;
+    top:0px;
+  height: 25vh;
+  width: 90%;
+  background-color: wheat;
+  opacity: 0.9;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 2vh;
+  margin-bottom: 5vh;
+}
+
+.gradient-border {
+  --border-width: 3px; 
+  text-align: center;
+  width: 40px;
+  height: 40px;
+  font-family: Lato, sans-serif;
+  font-size: 2.0rem;
+  text-transform: uppercase;
+  color: white;
+  background: white;
+  border-radius: 100%;
+}
+
+.mag{
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  top:23%;
+  content: "";
+
+  padding: 4px;
+  width: 52px;
+  height: 52px;
+  background: linear-gradient(
+    60deg,
+    hsl(224, 85%, 66%),
+    hsl(269, 85%, 66%),
+    hsl(314, 85%, 66%),
+    hsl(359, 85%, 66%),
+    hsl(44, 85%, 66%),
+    hsl(89, 85%, 66%),
+    hsl(134, 85%, 66%),
+    hsl(179, 85%, 66%)
+  );
+  background-size: 300% 300%;
+  background-position: 0 50%;
+  border-radius:100%;;
+  animation: moveGradient 4s alternate infinite;
+}
+
+#center_img{
+
+  color:black;position:absolute;font-size: 18px;top:-2px;left:-3px;width:49px;height:49px;border-radius:100%;
+}
+
+.container{position:absolute;top:25px;left:-40px;padding-right:-50px;}
+h4{padding-right:0px;margin-top:-10px;margin-bottom:0px;}
+.bton{margin-top:-15px;margin-bottom:-40px;}
+td{padding-top:7px;}
+p{padding-top:10px;}
+table{margin-top:20px;}
+
+.login-box {
+  position: absolute;
+  top: 260%;
+  left: 60%;
+  width: 80%;
+  padding: 40px;
+  transform: translate(-50%, -50%);
+  background: #6c5681;
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  border-radius: 10px;
+  opacity: 0.8;
+  }
+
+  .sitename p{ color: 24px;
+    color:dodgerblue;
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px black, 0 0 28px lightgreen, 0 0 5px lightgreen;font-weight: bold;font-family: cursive;
+  
+   }
+  
+   .logo_img{margin-left:-30px;}
+   .img-thumbnail{width:60px !important;height:60px !important;}
+  
+
+}
 
 </style>
 
@@ -378,7 +486,8 @@ bottom: 100%;
   <div class="left">
 
     <div class="sitename mt-4 ms-5 text-success ">
-      <a href="{%url 'home'%}"><p>Face Recognition Attendance System</p></a>
+      <a href="{% url 'home'%}"><span><img style="width:70px;height:70px;float:left;margin-right:10px;" class="rounded logo_img" src="{% static 'logo1.png' %}"></img><span>
+      <span><p>Face Recognition Attendance System</p></span></a>
     </div>
 
     <div class="content container mt-3 p-5 ">
@@ -431,7 +540,7 @@ bottom: 100%;
 
 <div class="mag">
   <div class="gradient-border">
-  <img style="color:black;position:absolute;font-size: 18px;left:0px;top:0px;width:203px;height:203px;border-radius:100%;" src="{% static 'center.webp' %}" alt="">
+  <img id="center_img" src="{% static 'center.webp' %}" alt="">
   </div>
 </div>
 
