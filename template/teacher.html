@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -132,10 +133,24 @@
 
 
 @media only screen and (min-width: 576px) {
-#avatar{position: absolute;right: 10px; cursor:pointer;}
+#avatar{position: absolute;right: 20px; bottom:8px;cursor:pointer;}
 #avatar img:active{border: 2px solid dodgerblue;}
 
 }
+
+
+@media only screen and (max-width: 500px) {
+.session{width:95%;}
+.input_form{width:95%;height:100%;padding-bottom:15px;}
+h3{font-size:20px;}
+h5{font-size:16px;}
+.time{font-size:14px;}
+.Rec{font-size:14px;position:absolute;top:5px;right:5px;background-color:red;border-radius:7px;color:white;
+  height:15px;padding:3px 10px 26px 10px;margin:auto;letter-spacing:1px;
+text-shadow: 1px 1px 2px black, 0 0 28px red, 0 0 5px red;}
+
+}
+
     </style>
   </head>
   <body>
@@ -177,10 +192,20 @@
     });
   });
     </script>
+    {% elif message.message == 'wrong' %}
+    <script type="text/javascript">
+      $(function () {
+      $( document ).ready(function() {
+        $("#lblText").html('<b>Session Not created, Invalid Details!<b>');
+        $('#godo').fadeIn('slow').delay(1000).fadeOut('slow');
+    });
+  });
+    </script>
+
     {% endif %}   
     {% endfor %}
 
-    <div id="godo" style="display: none; top: 20px; left:40%;right:40%; position:fixed;z-index:100;">
+    <div id="godo" style="display: none; top: 20px; left:40%;right:30%; position:fixed;z-index:100;">
       <span id="lblText"  class="alert alert-warning font-weight-bold "></span>
     </div>
 
@@ -190,7 +215,7 @@
 
     <nav style="z-index:1;" class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top mb-5">
       <div class="container-fluid">
-        <a href="{%url 'home' %}" style="font-family:Brush Script MT, Brush Script Std, cursive;text-shadow: 1px 1px 2px black, 0 0 28px red, 0 0 5px red;" class="navbar-brand text-danger" href="demo.html">Terabytes</a>
+        <a href="{%url 'home' %}" style="font-family:Brush Script MT, Brush Script Std, cursive;text-shadow: 1px 1px 2px black, 0 0 28px red, 0 0 5px red;" class="navbar-brand text-danger" href="demo.html">S M I T - Fras</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -198,24 +223,18 @@
           <ul class="navbar-nav text-center">
 
         <li class="nav-item dropdown">
-          <a  class="nav-link pb-1" href="#" role="button" data-bs-toggle="dropdown">Students</a>
-          <ul class="dropdown-menu mt-1" id="menu">
-            <li><a class="dropdown-item" href="#">3rd_Sec-B</a></li>
-            <li><a class="dropdown-item" href="#">1st_Sec-E</a></li>
-          </ul>
+          <a href="{% url 'student' %}" class="nav-link pb-1" role="button">Student's Page</a>
         </li>
 
         <li class="nav-item dropdown">
-          <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown">Attendance</a>
+          <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown">Admin</a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">CS1599_29/11/12</a></li>
-            <li><a class="dropdown-item" href="#">CS1523_28/11/12</a></li>
+            <li><a  href="admin/login/?next=/admin/" class="dropdown-item" href="#">Database</a></li>
+            <li><a href="{% url 'admins' %}" class="dropdown-item" href="#">Model</a></li>
           </ul>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="#">Instructions</a>
-        </li>
+      
           <li id="avatar"><a ><img src="https://www.w3schools.com/w3css/img_avatar.png" data-bs-toggle="offcanvas" data-bs-target="#profile_page" alt="Logo" style="width:40px;" class="rounded-pill"></a></li>
           </ul>
         </div>
@@ -242,7 +261,6 @@
     <div class="text-center mt-4 mb-1"><span class="fas fa-plus-circle fa-2x" > Create Sessions</span></div>
    </div>
     </div>
-
 </div>
 
 
@@ -369,8 +387,7 @@
 
           <script type="text/javascript">
             function target(sub=null,sc=null,dur=null,upd='CREATE',id=0)
-            {
-              
+            { 
               if(upd == 'UPDATE')
             {
               var Str=
@@ -385,11 +402,11 @@
                     ' class="form-control" placeholder="Enter email" name="email" required> '+
                   '    <label class="ps-4" for="subject_code">Subject Code</label>'+
                   '<datalist id="sub_codes">'+
-                    '<option value="CS1433">'+
-                      '<option value="CS1422">'+
-                        '<option value="CS1445">'+
-                          '<option value="MA1234">'+
-                            '<option value="CS1427">'+
+                    '<option value="CS1604">'+
+                      '<option value="CS1867">'+
+                        '<option value="CS1865">'+
+                          '<option value="CS1864">'+
+                            '<option value="CS1733">'+
                               '</datalist>'+
                   '    <div class="valid-feedback">Valid.</div>'+
                   '    <div class="invalid-feedback">Please fill out this field.</div>'+
@@ -460,11 +477,11 @@
                     ' class="form-control" placeholder="Enter email" name="email" required> '+
                   '    <label class="ps-4" for="subject_code">Subject Code</label>'+
                   '<datalist id="sub_codes">'+
-                    '<option value="CS1433">'+
-                      '<option value="CS1422">'+
-                        '<option value="CS1445">'+
-                          '<option value="MA1234">'+
-                            '<option value="CS1427">'+
+                    '<option value="CS1604">'+
+                      '<option value="CS1867">'+
+                        '<option value="CS1865">'+
+                          '<option value="CS1864">'+
+                            '<option value="CS1733">'+
                               '</datalist>'+
                   '    <div class="valid-feedback">Valid.</div>'+
                   '    <div class="invalid-feedback">Please fill out this field.</div>'+
@@ -480,6 +497,7 @@
                         '<option value="C">'+
                           '<option value="D">'+
                             '<option value="E">'+
+                              '<option value="ELECTIVE">'+
                               '</datalist>'+
                   '   <div class="valid-feedback">Valid.</div>'+
                  '<div class="invalid-feedback">Please fill out this field.</div>'+

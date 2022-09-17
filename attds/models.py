@@ -6,7 +6,7 @@ class Teachers(models.Model):
     teacher_name = models.CharField(max_length=50)
     dept = models.CharField(max_length=50)
     contact = models.EmailField(max_length=30)
-    img = models.ImageField(upload_to='images/')
+    img = models.ImageField(upload_to='images/',default='def_img/tchr.png')
     userid = models.ForeignKey(User,on_delete=models.CASCADE)
 
 class Students(models.Model):
@@ -16,6 +16,7 @@ class Students(models.Model):
     sem =  models.IntegerField()
     sec = models.CharField(max_length=1)
     userid = models.ForeignKey(User,on_delete=models.CASCADE)
+    img = models.ImageField(upload_to='images/',default='def_img/utk.png')
 
 class Subjects(models.Model):
     sub_code = models.CharField(max_length=20)
@@ -28,7 +29,7 @@ class Sessions(models.Model):
     #subject_name = models.CharField(max_length=50)
     #dept = models.CharField(max_length=50)
     #sem = models.IntegerField()
-    section = models.CharField(max_length=1)
+    section = models.CharField(max_length=10)
     start_time = models.DateTimeField()
     duration = models.IntegerField()
     teacher_id = models.ForeignKey(User,on_delete=models.CASCADE)
@@ -39,9 +40,6 @@ class Attendance(models.Model):
     student_id = models.ForeignKey(Students,on_delete=models.CASCADE,default=1)
     session_id = models.ForeignKey(Sessions,on_delete=models.CASCADE,default=1)
 
-class Chat(models.Model):
-    room_name = models.CharField(max_length=255)
-    allowed_users = models.CharField(max_length=255)
 
 
 #Lets make a subject table, that will contain the

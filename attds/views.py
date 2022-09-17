@@ -144,7 +144,13 @@ def create_session(request):
         stime = request.POST['stime']
         dur = request.POST['dur']
         #get the subject whose sub_code is sub_code
-        s=Subjects.objects.filter(sub_code=sub_code)
+        s=Subjects.objects.filter(sub_code=sub_code.upper())
+
+        #if wrong subject code is given, then just give message to teachers
+        if not s:
+            messages.info(request, ('wrong'))
+            return redirect("teacher")
+            
         #insert all the data in the session table
         d= Sessions(section=sec,start_time=stime,duration=dur,subject_code=s[0],teacher_id=request.user)
         d.save()
@@ -332,7 +338,8 @@ def join_session(request,id):
         s_dept=s.subject_code.dept
         s_sem=s.subject_code.sem
         s_sec=s.section
-        if d_dept==s_dept and d_sem==s_sem and d_sec==s_sec:
+        
+        if d_dept==s_dept and d_sem==s_sem and (d_sec==s_sec or s_sec=='ELECTIVE'):
             #print('abc')
             #out=open_camera(request)
             #print('zyz')
@@ -340,9 +347,10 @@ def join_session(request,id):
             out=mark_your_attendance(request)
             if str(d.reg_num)==out:
                 d=Attendance(attd_id=1234,student_id=d,session_id=s)
+                messages.success(request, ('Taken'))
                 d.save()
             else:
-                pass
+                messages.success(request, ('unknown'))
             #return render(request,'student.html')
             return redirect("student")
         else:
@@ -564,7 +572,6 @@ def vizualize_Data(embedded, targets,):
 #class Mark:
 def mark_your_attendance(request):
     op=[]
-    print("abc")
     detector=dlib.get_frontal_face_detector()
     predictor = dlib.shape_predictor(r'C:\Users\DCQUASTER JACK\projects\fras\attds\Face_Recognition_Data\shape_predictor_68_face_landmarks.dat')
     #Add path to the shape predictor ######CHANGE TO RELATIVE PATH LATER
@@ -587,7 +594,13 @@ def mark_your_attendance(request):
     vs = VideoStream(src=0).start()
     #fps=FPS().start()
     sampleNum = 0
-    while(True):	
+    startTime = time.time()
+    timeElapsed = time.time()  - startTime
+    secElapsed = int(timeElapsed)
+    rt=0
+    while(secElapsed<20):
+        timeElapsed = time.time() - startTime
+        secElapsed = int(timeElapsed)
         frame = vs.read()
         frame = imutils.resize(frame ,width = 800)
         gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
